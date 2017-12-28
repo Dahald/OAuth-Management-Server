@@ -1,10 +1,12 @@
 spring:
-    jpa:
-        database: MYSQL
-        hibernate:
-          ddl-auto: validate
-    datasource:
-        url: jdbc:mysql://[URL]
-        username: [USERNAME]
-        password: [PASSWORD]
-        driver-class-name: com.mysql.jdbc.Driver
+  main:
+    banner-mode: "off"
+  jpa:
+    database: MYSQL
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:mysql://[URL]
+    username: [USERNAME]
+    password: [PASSWORD]
+    driver-class-name: com.mysql.jdbc.Driver
