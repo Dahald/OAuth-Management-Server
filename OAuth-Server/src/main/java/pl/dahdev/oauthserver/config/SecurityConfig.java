@@ -1,4 +1,4 @@
-package pl.dahdev.managementapp.config;
+package pl.dahdev.oauthserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;

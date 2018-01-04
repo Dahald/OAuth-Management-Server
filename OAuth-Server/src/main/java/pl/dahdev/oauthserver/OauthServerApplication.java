@@ -1,4 +1,4 @@
-package pl.dahdev.managementapp;
+package pl.dahdev.oauthserver;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
