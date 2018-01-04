@@ -1,4 +1,4 @@
-package pl.dahdev.oauthserver;
+package pl.dahdev.managementapp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
