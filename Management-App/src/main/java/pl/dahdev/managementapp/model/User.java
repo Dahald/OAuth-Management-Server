@@ -1,6 +1,4 @@
-package pl.dahdev.managementapp.user;
-
-import pl.dahdev.managementapp.role.Role;
+package pl.dahdev.managementapp.model;
 
 import javax.persistence.*;
 import java.util.Set;

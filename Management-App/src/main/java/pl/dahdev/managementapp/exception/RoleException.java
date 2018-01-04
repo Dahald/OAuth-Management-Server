@@ -1,4 +1,4 @@
-package pl.dahdev.managementapp.role;
+package pl.dahdev.managementapp.exception;
 
 public class RoleException extends Exception {
 

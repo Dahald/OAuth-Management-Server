@@ -1,7 +1,8 @@
-package pl.dahdev.managementapp.role;
+package pl.dahdev.managementapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import pl.dahdev.managementapp.model.Role;
 
 import java.util.Optional;
 

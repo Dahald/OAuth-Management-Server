@@ -1,12 +1,12 @@
-package pl.dahdev.managementapp.role.impl;
+package pl.dahdev.managementapp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.dahdev.managementapp.role.Role;
-import pl.dahdev.managementapp.role.RoleException;
-import pl.dahdev.managementapp.role.RoleRepository;
-import pl.dahdev.managementapp.role.RoleService;
+import pl.dahdev.managementapp.exception.RoleException;
+import pl.dahdev.managementapp.model.Role;
+import pl.dahdev.managementapp.repository.RoleRepository;
+import pl.dahdev.managementapp.service.RoleService;
 
 @Service
 @Transactional

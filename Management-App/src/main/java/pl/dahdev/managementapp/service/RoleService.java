@@ -1,5 +1,8 @@
-package pl.dahdev.managementapp.role;
+package pl.dahdev.managementapp.service;
 
+
+import pl.dahdev.managementapp.exception.RoleException;
+import pl.dahdev.managementapp.model.Role;
 
 public interface RoleService {
 
