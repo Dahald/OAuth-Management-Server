@@ -54,4 +54,21 @@ public class RoleServiceTest {
         when(roleRepository.findByRole(USER)).thenReturn(Optional.empty());
         roleService.findByRole(USER);
     }
+
+    @Test
+    public void whenGivenRoleIdShouldReturnRole() throws RoleException {
+        Role role = new Role(ADMIN);
+        role.setId(ID);
+        when(roleRepository.findById(ID)).thenReturn(Optional.of(role));
+        Role actualRole = roleService.findById(ID);
+
+        verify(roleRepository).findById(ID);
+        assertEquals(role, actualRole);
+    }
+
+    @Test(expected = RoleException.class)
+    public void whenGivenWrongRoleIdShouldThrownException() throws RoleException {
+        when(roleRepository.findById(ID)).thenReturn(Optional.empty());
+        roleService.findById(ID);
+    }
 }
