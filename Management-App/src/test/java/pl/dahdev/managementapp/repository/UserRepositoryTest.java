@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.dahdev.managementapp.model.User;
 
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserRepositoryTest {
 
     private static final String USERNAME = "admin";
@@ -28,6 +30,15 @@ public class UserRepositoryTest {
 
         Optional<User> actualRole = userRepository.findByUsername(USERNAME);
         assertThat(actualRole).hasValue(user);
+    }
+
+    @Test
+    public void whenGivenIdShouldReturnUser() {
+        User user = new User(USERNAME, PASSWORD);
+        long id = userRepository.save(user).getId();
+
+        Optional<User> actualUser = userRepository.findById(id);
+        assertThat(actualUser).hasValue(user);
     }
 
 }
