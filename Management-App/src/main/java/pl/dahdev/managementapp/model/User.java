@@ -26,9 +26,6 @@ public class User {
     @Column(name = "PASSWORD", nullable = false, length = 65)
     private String password;
 
-    @Column(name = "SALT", nullable = false, length = 21)
-    private String salt;
-
     @Column(name = "ENABLED", nullable = false)
     private int enabled = 1;
 
@@ -76,14 +73,6 @@ public class User {
         this.roles = roles;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +84,6 @@ public class User {
         if (enabled != user.enabled) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
         return roles != null ? roles.equals(user.roles) : user.roles == null;
     }
 
@@ -104,7 +92,6 @@ public class User {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (salt != null ? salt.hashCode() : 0);
         result = 31 * result + enabled;
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
@@ -116,7 +103,6 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
