@@ -10,6 +10,7 @@ import pl.dahdev.managementapp.model.User;
 import pl.dahdev.managementapp.repository.UserRepository;
 import pl.dahdev.managementapp.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,5 +66,10 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserException(UserException.USER_NOT_FOUND);
         }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
