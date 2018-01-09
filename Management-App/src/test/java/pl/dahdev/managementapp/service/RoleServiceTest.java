@@ -1,7 +1,9 @@
 package pl.dahdev.managementapp.service;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.dahdev.managementapp.exception.RoleException;
@@ -23,6 +25,9 @@ public class RoleServiceTest {
     private static final long ID = 500;
 
     private RoleService roleService;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
     private RoleRepository roleRepository;
@@ -49,8 +54,10 @@ public class RoleServiceTest {
         assertEquals(role, actualRole);
     }
 
-    @Test(expected = RoleException.class)
+    @Test
     public void whenGivenWrongRoleNameShouldThrownException() throws RoleException {
+        expectedException.expect(RoleException.class);
+        expectedException.expectMessage(RoleException.ROLE_NOT_FOUND);
         when(roleRepository.findByRole(USER)).thenReturn(Optional.empty());
         roleService.findByRole(USER);
     }
@@ -66,8 +73,10 @@ public class RoleServiceTest {
         assertEquals(role, actualRole);
     }
 
-    @Test(expected = RoleException.class)
+    @Test
     public void whenGivenWrongRoleIdShouldThrownException() throws RoleException {
+        expectedException.expect(RoleException.class);
+        expectedException.expectMessage(RoleException.ROLE_NOT_FOUND);
         when(roleRepository.findById(ID)).thenReturn(Optional.empty());
         roleService.findById(ID);
     }
