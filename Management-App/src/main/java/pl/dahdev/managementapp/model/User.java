@@ -29,6 +29,9 @@ public class User {
     @Column(name = "ENABLED", nullable = false)
     private int enabled = 1;
 
+    @Column(name = "ACTIVATED", nullable = false)
+    private int activated = 0;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles;
@@ -65,6 +68,14 @@ public class User {
         this.enabled = enabled;
     }
 
+    public int getActivated() {
+        return activated;
+    }
+
+    public void setActivated(int activated) {
+        this.activated = activated;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -82,6 +93,7 @@ public class User {
 
         if (id != user.id) return false;
         if (enabled != user.enabled) return false;
+        if (activated != user.activated) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         return roles != null ? roles.equals(user.roles) : user.roles == null;
@@ -93,6 +105,7 @@ public class User {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + enabled;
+        result = 31 * result + activated;
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
@@ -104,6 +117,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
+                ", activated=" + activated +
                 ", roles=" + roles +
                 '}';
     }
