@@ -5,7 +5,7 @@ import pl.dahdev.managementapp.model.Activation;
 
 import java.util.Optional;
 
-public interface ActivationRepository extends JpaRepository<Activation, Integer> {
+public interface ActivationRepository extends JpaRepository<Activation, Long> {
 
     Optional<Activation> findById(long id);
 

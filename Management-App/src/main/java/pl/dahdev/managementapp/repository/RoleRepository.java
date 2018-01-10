@@ -7,7 +7,7 @@ import pl.dahdev.managementapp.model.Role;
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Optional<Role> findById(long id);
 
