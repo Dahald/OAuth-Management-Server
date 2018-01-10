@@ -7,10 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.dahdev.managementapp.model.Activation;
+import pl.dahdev.managementapp.model.User;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -18,9 +20,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ActivationRepositoryTest {
 
     private static final String ACTIVATION_CODE = "activation_code";
+    private static final String USERNAME = "admin";
+    private static final String PASSWORD = "password";
 
     @Autowired
     ActivationRepository activationRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     public void whenGivenActivationCodeShouldReturnActivation() {
@@ -40,6 +47,18 @@ public class ActivationRepositoryTest {
 
         Optional<Activation> actualActivation = activationRepository.findById(id);
         assertThat(actualActivation).hasValue(activation);
+    }
+
+    @Test
+    public void whenRemoveActivationShouldNotRemoveUser() {
+        User user = new User(USERNAME, PASSWORD);
+        long userId = userRepository.save(user).getId();
+
+        Activation activation = new Activation(ACTIVATION_CODE, user);
+        long activationId = activationRepository.save(activation).getId();
+
+        activationRepository.delete(activationId);
+        assertTrue(userRepository.findById(userId).isPresent());
     }
 
 }
