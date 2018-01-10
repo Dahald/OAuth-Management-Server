@@ -19,13 +19,14 @@ public class UserRepositoryTest {
 
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "password";
+    private static final String EMAIL = "email@example.com";
 
     @Autowired
     UserRepository userRepository;
 
     @Test
     public void whenGivenUserNameShouldReturnUser() {
-        User user = new User(USERNAME, PASSWORD);
+        User user = new User(USERNAME, PASSWORD, EMAIL);
         userRepository.save(user);
 
         Optional<User> actualRole = userRepository.findByUsername(USERNAME);
@@ -34,7 +35,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenGivenIdShouldReturnUser() {
-        User user = new User(USERNAME, PASSWORD);
+        User user = new User(USERNAME, PASSWORD, EMAIL);
         long id = userRepository.save(user).getId();
 
         Optional<User> actualUser = userRepository.findById(id);

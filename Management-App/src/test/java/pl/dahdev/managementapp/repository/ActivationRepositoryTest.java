@@ -22,6 +22,7 @@ public class ActivationRepositoryTest {
     private static final String ACTIVATION_CODE = "activation_code";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "password";
+    private static final String EMAIL = "email@example.com";
 
     @Autowired
     ActivationRepository activationRepository;
@@ -51,7 +52,7 @@ public class ActivationRepositoryTest {
 
     @Test
     public void whenRemoveActivationShouldNotRemoveUser() {
-        User user = new User(USERNAME, PASSWORD);
+        User user = new User(USERNAME, PASSWORD, EMAIL);
         long userId = userRepository.save(user).getId();
 
         Activation activation = new Activation(ACTIVATION_CODE, user);

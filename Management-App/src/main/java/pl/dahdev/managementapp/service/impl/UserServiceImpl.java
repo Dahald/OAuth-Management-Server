@@ -28,11 +28,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(String username, String password) {
+    public void addUser(String username, String password, String email) {
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(bCryptPasswordEncoder.encode(password));
+        newUser.setEmail(email);
         userRepository.save(newUser);
+        //TODO generateActivationCode for user
+        //TODO send email with activationCode
     }
 
     @Override

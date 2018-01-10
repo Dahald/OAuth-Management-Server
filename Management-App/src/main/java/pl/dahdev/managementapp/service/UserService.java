@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void addUser(String username, String password);
+    void addUser(String username, String password, String email);
 
     User findByUsername(String username) throws UserException;
 

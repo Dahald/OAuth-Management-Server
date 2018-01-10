@@ -26,6 +26,7 @@ public class UserServiceTest {
     private static final String PASSWORD = "admin";
     private static final String WRONG_PASSWORD = "wong_pass";
     private static final String NEW_PASSWORD = "new_pass";
+    private static final String EMAIL = "email@example.com";
     private static final long ID = 500;
     private static final long WRONG_ID = 1000;
     private static final String ENCRYPTED_PASSWORD = "$2a$10$5EoNWcI.mW3k5EoyfVOieO/EoFZ0nMVNWFkaB4SnR2PDR.fefj66K";
@@ -51,7 +52,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenUsernameShouldReturnUser() throws UserException {
-        User user = new User(USERNAME, PASSWORD);
+        User user = new User(USERNAME, PASSWORD, EMAIL);
         user.setId(ID);
         when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(user));
         User actualUser = userService.findByUsername(USERNAME);
@@ -70,7 +71,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenUserIdShouldDisableUser() throws UserException {
-        User user = new User(USERNAME, PASSWORD);
+        User user = new User(USERNAME, PASSWORD, EMAIL);
         user.setId(ID);
 
         when(userRepository.findById(ID)).thenReturn(Optional.of(user));
@@ -90,7 +91,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenUsernameOldPasswordNewPasswordShouldChangePassword() throws UserException {
-        User user = new User(USERNAME, ENCRYPTED_PASSWORD);
+        User user = new User(USERNAME, ENCRYPTED_PASSWORD, EMAIL);
         user.setId(ID);
         when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(user));
         userService.changePassword(USERNAME, PASSWORD, NEW_PASSWORD);
@@ -102,7 +103,7 @@ public class UserServiceTest {
     public void whenGivenWrongPasswordShouldThrownExceptionInsteadOfChangePassword() throws UserException {
         expectedException.expect(UserException.class);
         expectedException.expectMessage(UserException.WRONG_PASSWORD);
-        User user = new User(USERNAME, ENCRYPTED_PASSWORD);
+        User user = new User(USERNAME, ENCRYPTED_PASSWORD, EMAIL);
         user.setId(ID);
         when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(user));
         userService.changePassword(USERNAME, WRONG_PASSWORD, NEW_PASSWORD);
