@@ -20,7 +20,7 @@ public class Activation {
     @Column(name = "ACTIVATION_CODE", nullable = false, unique = true)
     private String activationCode;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 
