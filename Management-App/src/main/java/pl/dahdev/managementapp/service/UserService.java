@@ -15,6 +15,8 @@ public interface UserService {
 
     void disableUser(long id) throws UserException;
 
+    void activateUser(User user);
+
     List<User> getAllUsers();
 
 }
