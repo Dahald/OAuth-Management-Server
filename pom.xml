@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>pl.dahdev</groupId>
-	<artifactId>oauth-management-server</artifactId>
+	<artifactId>oauth2-management-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>oauth-management-server</name>
+	<name>oauth2-management-server</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
