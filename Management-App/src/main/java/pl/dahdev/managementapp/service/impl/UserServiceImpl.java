@@ -5,9 +5,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.dahdev.managementapp.exception.ActivationException;
 import pl.dahdev.managementapp.exception.UserException;
+import pl.dahdev.managementapp.model.Activation;
 import pl.dahdev.managementapp.model.User;
 import pl.dahdev.managementapp.repository.UserRepository;
+import pl.dahdev.managementapp.service.ActivationService;
 import pl.dahdev.managementapp.service.UserService;
 
 import java.util.List;
@@ -19,12 +22,18 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ActivationService activationService;
 
-    public UserServiceImpl(@Autowired UserRepository userRepository, @Autowired BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(
+            @Autowired UserRepository userRepository,
+            @Autowired BCryptPasswordEncoder bCryptPasswordEncoder,
+            @Autowired ActivationService activationService) {
         this.userRepository = userRepository;
         Assert.notNull(userRepository, "UserRepository is a null!");
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         Assert.notNull(bCryptPasswordEncoder, "BCryptPasswordEncoder is a null!");
+        this.activationService = activationService;
+        Assert.notNull(bCryptPasswordEncoder, "ActivationService is a null!");
     }
 
     @Override
@@ -34,7 +43,8 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(bCryptPasswordEncoder.encode(password));
         newUser.setEmail(email);
         userRepository.save(newUser);
-        //TODO generateActivationCode for user
+        String activationCode = activationService.generateActivationCode();
+        activationService.addActivation(activationCode, newUser);
         //TODO send email with activationCode
     }
 
@@ -72,9 +82,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void activateUser(User user) {
+    public void activateUser(String activationCode) throws ActivationException {
+        Activation activation = activationService.findByActivationCode(activationCode);
+        User user = activation.getUser();
         user.setActivated(1);
         userRepository.save(user);
+        activationService.deleteActivation(activation);
     }
 
     @Override

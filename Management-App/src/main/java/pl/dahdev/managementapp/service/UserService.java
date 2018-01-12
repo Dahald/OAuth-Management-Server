@@ -1,5 +1,6 @@
 package pl.dahdev.managementapp.service;
 
+import pl.dahdev.managementapp.exception.ActivationException;
 import pl.dahdev.managementapp.exception.UserException;
 import pl.dahdev.managementapp.model.User;
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     void disableUser(long id) throws UserException;
 
-    void activateUser(User user);
+    void activateUser(String activationCode) throws ActivationException;
 
     List<User> getAllUsers();
 

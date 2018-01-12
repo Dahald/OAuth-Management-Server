@@ -6,12 +6,14 @@ import pl.dahdev.managementapp.model.User;
 
 public interface ActivationService {
 
-    void activate(String activationCode) throws ActivationException;
+    void addActivation(String activationCode, User user);
 
-    String generateActivationCode(User user);
+    String generateActivationCode();
 
     Activation findById(long id) throws ActivationException;
 
     Activation findByActivationCode(String activationCode) throws ActivationException;
+
+    void deleteActivation(Activation activation);
 
 }
