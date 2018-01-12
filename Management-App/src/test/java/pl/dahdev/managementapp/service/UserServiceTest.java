@@ -7,7 +7,9 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pl.dahdev.managementapp.exception.ActivationException;
 import pl.dahdev.managementapp.exception.UserException;
+import pl.dahdev.managementapp.model.Activation;
 import pl.dahdev.managementapp.model.User;
 import pl.dahdev.managementapp.repository.UserRepository;
 import pl.dahdev.managementapp.service.impl.UserServiceImpl;
@@ -30,6 +32,7 @@ public class UserServiceTest {
     private static final long ID = 500;
     private static final long WRONG_ID = 1000;
     private static final String ENCRYPTED_PASSWORD = "$2a$10$5EoNWcI.mW3k5EoyfVOieO/EoFZ0nMVNWFkaB4SnR2PDR.fefj66K";
+    private static final String ACTIVATION_CODE = "activation";
 
     private UserService userService;
 
@@ -39,10 +42,13 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ActivationService activationService;
+
     @Before
     public void setupMock() {
         MockitoAnnotations.initMocks(this);
-        this.userService = new UserServiceImpl(userRepository, new BCryptPasswordEncoder());
+        this.userService = new UserServiceImpl(userRepository, new BCryptPasswordEncoder(), activationService);
     }
 
     @Test
@@ -116,5 +122,20 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(WRONG_USERNAME)).thenReturn(Optional.empty());
         userService.changePassword(WRONG_USERNAME, PASSWORD, NEW_PASSWORD);
+    }
+
+    @Test
+    public void whenGivenActivationCodeShouldActivateUserAndDeleteActivationCode() throws ActivationException {
+        User user = new User(USERNAME, ENCRYPTED_PASSWORD, EMAIL);
+        user.setId(ID);
+        Activation activation = new Activation(ACTIVATION_CODE, user);
+        when(activationService.findByActivationCode(ACTIVATION_CODE)).thenReturn(activation);
+
+        userService.activateUser(ACTIVATION_CODE);
+
+        verify(activationService).findByActivationCode(ACTIVATION_CODE);
+        verify(userRepository).save(user);
+        verify(activationService).deleteActivation(activation);
+        assertEquals(1, user.getActivated());
     }
 }
